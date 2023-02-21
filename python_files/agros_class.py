@@ -72,7 +72,6 @@ class Agros:
 
         """
         data_df_new_index = self.data_df.set_index("Entity")
-
         data_df_without_continents = data_df_new_index.drop(
             [
                 "Asia",
@@ -124,6 +123,81 @@ class Agros:
         )
         heatmap.set_title("Correlation Heatmap", fontdict={"fontsize": 12}, pad=12)
 
+    def area_graph(self, country: str, normalize: bool):
+        """
+        Creates an area graph for a given country or the whole world. It can be specified if the
+        graph should show absolute numbers or absolute numbers, where the yearly output is
+        always 100%.
+
+        Parameters
+        ---------------
+        country: string
+            Defines if the data should be shown for a special country or for the whole world
+        normalize: boolean
+            Shows if graph should be normalized. Normalized means that it will be relative output.
+        """
+        country_list = self.list_countries()
+
+        # check if input for normalize is a boolean value
+        if not isinstance(normalize, bool):
+            raise TypeError("Variable 'normalize' is not a boolean.")
+
+        # check if country input is World or none and adapt dataframe accordingly
+        if country in ('World', None):
+            country_df = self.data_df.groupby("Year", as_index=False).sum()
+            # check if normalize is true and adapt dataframe accordingly
+            if normalize is True:
+                country_df["crop_output_quantity"] = (
+                    country_df["crop_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["animal_output_quantity"] = (
+                    country_df["animal_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["fish_output_quantity"] = (
+                    country_df["fish_output_quantity"] / country_df["output_quantity"]
+                )
+
+        # check if country input is in country list
+        elif country in country_list:
+            country_df = self.data_df[self.data_df["Entity"] == f"{country}"]
+            if normalize is True:
+                country_df["crop_output_quantity"] = (
+                    country_df["crop_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["animal_output_quantity"] = (
+                    country_df["animal_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["fish_output_quantity"] = (
+                    country_df["fish_output_quantity"] / country_df["output_quantity"]
+                )
+
+        # raise a value error if country input is invalid
+        else:
+            raise ValueError(f"{country} is not a valid country, try another one")
+
+        # define colors to use in chart
+        color_map = ["red", "steelblue", "green"]
+
+        # create area chart
+        plt.stackplot(
+            country_df["Year"],
+            country_df["crop_output_quantity"],
+            country_df["animal_output_quantity"],
+            country_df["fish_output_quantity"],
+            labels=["Output Crop", "Output Animal", "Output Fish"],
+            colors=color_map,
+        )
+
+        # add legend
+        plt.legend(loc="upper left")
+
+        # add axis labels
+        plt.xlabel("Year")
+        plt.ylabel("Quantity")
+
+        # display area chart
+        plt.show()
+
     def compare_output(self, *country_input):
         """Plots the total of the output columns of selected countries
 
@@ -147,4 +221,44 @@ class Agros:
         plt.title("Output Comparison for Selected Countries")
         plt.xlabel("Year")
         plt.ylabel("Output")
+        plt.show()
+
+    def gapminder(self, year: int):
+        """
+        Generate a scatter plot for a specified ``year`` with the variables
+        x being fertilizer quantity,
+        y being output quantity,
+        and the area of each dot being ag land index.
+
+        Parameters
+        ----------
+        year : int
+            Scatter plot will display the data only for the specified year.
+        """
+
+        # maybe back to type since python thinks bool is int :-)
+        if not isinstance(year, int):
+            raise TypeError("Variable 'year' is not int.")
+
+        df_year = self.data_df[self.data_df["Year"] == year]
+
+        if df_year.shape[0] == 0:  # get rowcount
+            raise ValueError(
+                "No entries were found for this year. Variable 'year' must be between 1961 and 2019"
+            )
+
+        axis = sns.scatterplot(
+            data=df_year,
+            x="fertilizer_quantity",
+            y="output_quantity",
+            size="labor_index",
+        )
+        axis.set(
+            xlabel="Fertilizer Quantity",
+            ylabel="Output Quantity",
+            xscale="log",
+            yscale="log",
+            title=f"Fertilizer and Output Quantity in {year}",
+        )
+
         plt.show()
