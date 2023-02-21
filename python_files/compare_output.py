@@ -1,4 +1,4 @@
-def compare_output(*countries):
+def compare_output(*country_input):
     """Plots the total of the output columns of selected countries
 
     Parameters
@@ -7,22 +7,16 @@ def compare_output(*countries):
         the countries selected for the comparison
     """
 
-    country_list = list(countries)
+    input_list = list(country_input)
 
-    for country in country_list:
-        if type(country) is not str:
+    for country_input in input_list:
+        if type(country_input) is not str:
             raise TypeError("Country inputed is not a string")
 
-    data_df["total_outputs"] = (
-        data_df["crop_output_quantity"]
-        + data_df["animal_output_quantity"]
-        + data_df["fish_output_quantity"]
-    )
-
-    df = data_df[data_df["Entity"].isin(country_list)]
+    output_df = data_df[data_df["Entity"].isin(input_list)]
 
     sns.set_style("whitegrid")
-    sns.lineplot(x="Year", y="total_outputs", hue="Entity", data=df)
+    sns.lineplot(x="Year", y="output_quantity", hue="Entity", data=output_df)
 
     plt.title("Output Comparison for Selected Countries")
     plt.xlabel("Year")
