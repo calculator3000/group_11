@@ -20,7 +20,7 @@ class Agros:
     Attributes
     ---------------
     data_df: Pandas Dataframe
-        dataframe where the downloaded agricultural data can be loaded into.
+        dataframe where the downloaded agricultural data can be loaded into
 
 
     Methods
@@ -35,8 +35,14 @@ class Agros:
     correlate_quantity
         provides a correlation heatmap of the quality columns
 
+    area_graph
+        provides an area graph of the outputs of a selected country or the world
+
     compare_output
         Plots the output columns of selected countries
+
+    gapminder
+        provides a scatterplot of fertilizer and output quantity for a selected year
     """
 
     def __init__(self):
@@ -49,7 +55,7 @@ class Agros:
         It also creates Pandas Dataframe from the downloaded csv file.
         """
 
-        exists = os.path.isfile("downloads/download.csv")
+        exists = os.path.isfile("../Downloads/download.csv")
 
         if not exists:
             response = requests.get(
@@ -57,10 +63,10 @@ class Agros:
                 "Agricultural%20total%20factor%20productivity%20(USDA)"
                 "/Agricultural%20total%20factor%20productivity%20(USDA).csv"
             )
-            with open("downloads/download.csv", "wb") as file:
+            with open("../Downloads/download.csv", "wb") as file:
                 file.write(response.content)
 
-        self.data_df = pd.read_csv("downloads/download.csv")
+        self.data_df = pd.read_csv("../Downloads/download.csv")
 
     def list_countries(self):
         """Lists all the countries of the Entity column and removes the duplicates.
@@ -125,16 +131,21 @@ class Agros:
 
     def area_graph(self, country: str, normalize: bool):
         """
-        Creates an area graph for a given country or the whole world. It can be specified if the
-        graph should show absolute numbers or absolute numbers, where the yearly output is
-        always 100%.
+        Creates an area graph of the output of a given country or the whole world.
+        It can be specified if the graph should show absolute numbers or relative numbers,
+        where the yearly output is always 100%.
+        The country input can either be empty or 'World' then the graph will show
+        information for the whole world summarized, or it can be a country from the country_list.
+        Then it will show the output for the specific country. If the input is something
+        else, it will raise and error.
 
         Parameters
         ---------------
         country: string
             Defines if the data should be shown for a special country or for the whole world
+
         normalize: boolean
-            Shows if graph should be normalized. Normalized means that it will be relative output.
+            Shows if graph should be normalized. Normalized means that it will be relative output
         """
         country_list = self.list_countries()
 
@@ -143,7 +154,7 @@ class Agros:
             raise TypeError("Variable 'normalize' is not a boolean.")
 
         # check if country input is World or none and adapt dataframe accordingly
-        if country in ("World", None):
+        if country in ('World', None):
             country_df = self.data_df.groupby("Year", as_index=False).sum()
             # check if normalize is true and adapt dataframe accordingly
             if normalize is True:
@@ -199,7 +210,8 @@ class Agros:
         plt.show()
 
     def compare_output(self, *country_input):
-        """Plots the total of the output columns of selected countries
+        """Plots the total of the output columns of selected countries.
+        An unlimited number of countries can be selected for the comparison.
 
         Parameters
         ---------------
@@ -271,3 +283,5 @@ class Agros:
         )
 
         plt.show()
+
+
