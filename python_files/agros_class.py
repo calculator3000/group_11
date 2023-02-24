@@ -49,7 +49,7 @@ class Agros:
         It also creates Pandas Dataframe from the downloaded csv file.
         """
 
-        exists = os.path.isfile("../Downloads/download.csv")
+        exists = os.path.isfile("downloads/download.csv")
 
         if not exists:
             response = requests.get(
@@ -57,10 +57,10 @@ class Agros:
                 "Agricultural%20total%20factor%20productivity%20(USDA)"
                 "/Agricultural%20total%20factor%20productivity%20(USDA).csv"
             )
-            with open("../Downloads/download.csv", "wb") as file:
+            with open("downloads/download.csv", "wb") as file:
                 file.write(response.content)
 
-        self.data_df = pd.read_csv("../Downloads/download.csv")
+        self.data_df = pd.read_csv("downloads/download.csv")
 
     def list_countries(self):
         """Lists all the countries of the Entity column and removes the duplicates.
@@ -143,7 +143,7 @@ class Agros:
             raise TypeError("Variable 'normalize' is not a boolean.")
 
         # check if country input is World or none and adapt dataframe accordingly
-        if country in ('World', None):
+        if country in ("World", None):
             country_df = self.data_df.groupby("Year", as_index=False).sum()
             # check if normalize is true and adapt dataframe accordingly
             if normalize is True:
@@ -228,7 +228,7 @@ class Agros:
         Generate a scatter plot for a specified ``year`` with the variables
         x being fertilizer quantity,
         y being output quantity,
-        and the area of each dot being ag land index.
+        and the area of each dot being labor quantity.
 
         Parameters
         ----------
@@ -236,29 +236,38 @@ class Agros:
             Scatter plot will display the data only for the specified year.
         """
 
-        # maybe back to type since python thinks bool is int :-)
-        if not isinstance(year, int):
+        # check if year input is int
+        if type(year) is not int:
             raise TypeError("Variable 'year' is not int.")
 
+        # select subset of the dataframe that only contains rows for the selected year
         df_year = self.data_df[self.data_df["Year"] == year]
 
-        if df_year.shape[0] == 0:  # get rowcount
+        # select subset of the dataframe that doesn't contain any regions
+        country_list = self.list_countries()
+        df_year_countries = df_year[df_year["Entity"].isin(country_list)]
+
+        # get rowcount and raise exception if no entries were found for the year input
+        if df_year_countries.shape[0] == 0:
             raise ValueError(
                 "No entries were found for this year. Variable 'year' must be between 1961 and 2019"
             )
-
+        # plot the bubble graph
+        plt.figure(figsize=(10, 6))
         axis = sns.scatterplot(
-            data=df_year,
+            data=df_year_countries,
             x="fertilizer_quantity",
             y="output_quantity",
-            size="labor_index",
+            size="labor_quantity",
+            sizes=(100, 700),
+            alpha=0.5,
         )
         axis.set(
-            xlabel="Fertilizer Quantity",
-            ylabel="Output Quantity",
+            xlabel="Fertilizer Quantity (in tons)",
+            ylabel="Output Quantity (in 1000$)",
             xscale="log",
             yscale="log",
-            title=f"Fertilizer and Output Quantity in {year}",
+            title=f"Fertilizer, Output and Labor Quantity in {year}",
         )
 
         plt.show()
