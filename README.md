@@ -17,5 +17,5 @@ GPL-3.0 license
 Work in Process - Currently on Project Part 1
 
 ## Authors
-Eva, Julia, Carlos and Hannah (Group 11)
+Eva, Julia, Carlos and Hannah and Luis (Group 11)
 
