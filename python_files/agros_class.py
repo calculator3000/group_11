@@ -26,11 +26,11 @@ class Agros:
     Methods
     ---------------
     download_data
-        downloads agricultural data from Githut, saves it to donwnlaod folder
+        downloads agricultural data from Github, saves it to a download folder
         and creates Pandas DataFrame
 
     list_countries
-        list all the available countires of the dataset
+        list all the available countries of the dataset
 
     correlate_quantity
         provides a correlation heatmap of the quality columns
@@ -55,7 +55,7 @@ class Agros:
         It also creates Pandas Dataframe from the downloaded csv file.
         """
 
-        exists = os.path.isfile("../Downloads/download.csv")
+        exists = os.path.isfile("downloads/download.csv")
 
         if not exists:
             response = requests.get(
@@ -63,10 +63,10 @@ class Agros:
                 "Agricultural%20total%20factor%20productivity%20(USDA)"
                 "/Agricultural%20total%20factor%20productivity%20(USDA).csv"
             )
-            with open("../Downloads/download.csv", "wb") as file:
+            with open("downloads/download.csv", "wb") as file:
                 file.write(response.content)
 
-        self.data_df = pd.read_csv("../Downloads/download.csv")
+        self.data_df = pd.read_csv("downloads/download.csv")
 
     def list_countries(self):
         """Lists all the countries of the Entity column and removes the duplicates.
@@ -122,7 +122,7 @@ class Agros:
         return country_list
 
     def correlate_quantity(self):
-        """Provides a correlation heatmap of the quantitiy columns"""
+        """Provides a correlation heatmap of the quantity columns"""
 
         heatmap = sns.heatmap(
             self.data_df.iloc[:, 13:].corr(), vmin=-1, vmax=1, annot=True
@@ -154,7 +154,7 @@ class Agros:
             raise TypeError("Variable 'normalize' is not a boolean.")
 
         # check if country input is World or none and adapt dataframe accordingly
-        if country in ('World', None):
+        if country in ("World", None):
             country_df = self.data_df.groupby("Year", as_index=False).sum()
             # check if normalize is true and adapt dataframe accordingly
             if normalize is True:
@@ -283,5 +283,3 @@ class Agros:
         )
 
         plt.show()
-
-
