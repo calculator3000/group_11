@@ -4,6 +4,8 @@ def download_data(self):
     Raises an error in case the file is already downloaded.
     It also creates Pandas Dataframe from the downloaded csv file.
     """
+    if not os.path.exists("downloads"):
+        os.makedirs("downloads")
 
     exists = os.path.isfile("downloads/download.csv")
 
