@@ -21,4 +21,12 @@ def compare_output(*country_input):
     plt.title("Output Comparison for Selected Countries")
     plt.xlabel("Year")
     plt.ylabel("Output")
+    plt.text(
+        0,
+        -0.25,
+        "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+        ha="left",
+        fontsize=10,
+        transform=plt.gca().transAxes,
+    )
     plt.show()
