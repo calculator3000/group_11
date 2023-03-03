@@ -5,6 +5,12 @@ The repository contains our advanced programming group project, using data on ag
 
 Our main analysis can be found in the showcase Jupyter Notebook. 
 
+The project is shared work by:
+Julia Stieler - 56040, 56040@novasbe.pt
+Hannah Dickescheid - 50178, 50178@novasbe.pt
+Carlos Ferrufino - 53276, 53276@novasbe.pt 
+Eva Zinser - 53100, 53100@novasbe.pt
+
 ## Data
 We are using data on Agricultural total factor productivity (USDA), downloaded from Our World in Data, (datasource can be found [here](https://github.com/owid/owid-datasets/tree/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA))
 
