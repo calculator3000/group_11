@@ -1,7 +1,3 @@
-"""
-tba
-"""
-
 def area_graph(self, country: str, normalize: bool):
         """
         Creates an area graph for a given country or the whole world. It can be specified if the

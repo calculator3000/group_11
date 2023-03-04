@@ -4,6 +4,7 @@ provide a correlation matrix of the outputs, and plot an area chart of the agric
 of a choosen country.
 It can also compare the output of choosen countries with a line graph, and plot a scatter plot
 of fertilizer and output quantity.
+Moreover, a choropleth of the total factor productivity for a selected year can be plotted.
 """
 
 import os
@@ -11,6 +12,8 @@ import requests
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import geopandas as gpd
+import numpy as np
 
 
 class Agros:
@@ -21,6 +24,9 @@ class Agros:
     ---------------
     data_df: Pandas Dataframe
         dataframe where the downloaded agricultural data can be loaded into
+
+    merge_dict: dict
+        a dictionary in order to change the spelling for some countries to allow merging
 
 
     Methods
@@ -43,10 +49,27 @@ class Agros:
 
     gapminder
         provides a scatterplot of fertilizer and output quantity for a selected year
+
+    choropleth
+        provided a choropleth plotting the total factor productivity of a selected year
+
     """
 
     def __init__(self):
         self.data_df = pd.DataFrame
+        self.merge_dict = {
+            "United States of America": "United States",
+            "Dem. Rep. Congo": "Democratic Republic of Congo",
+            "Dominican Rep.": "Dominican Republic",
+            "Timor-Leste": "Timor",
+            "Eq. Guinea": "Equatorial Guinea",
+            "eSwatini": "Eswatini",
+            "Solomon Is.": "Solomon Islands",
+            "N. Cyprus": "Cyprus",
+            "Somaliland": "Somalia",
+            "Bosnia and Herz.": "Bosnia and Herzegovina",
+            "S. Sudan": "South Sudan",
+        }
 
     def download_data(self):
         """
@@ -54,6 +77,8 @@ class Agros:
         Raises an error in case the file is already downloaded.
         It also creates Pandas Dataframe from the downloaded csv file.
         """
+        if not os.path.exists("downloads"):
+            os.makedirs("downloads")
 
         exists = os.path.isfile("downloads/download.csv")
 
@@ -68,6 +93,8 @@ class Agros:
 
         self.data_df = pd.read_csv("downloads/download.csv")
 
+        self.geopandas_df = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+
     def list_countries(self):
         """Lists all the countries of the Entity column and removes the duplicates.
 
@@ -78,7 +105,7 @@ class Agros:
 
         """
         data_df_new_index = self.data_df.set_index("Entity")
-        data_df_without_continents = data_df_new_index.drop(
+        data_df = data_df_new_index.drop(
             [
                 "Asia",
                 "Caribbean",
@@ -113,10 +140,11 @@ class Agros:
                 "West Asia",
                 "Western Europe",
                 "World",
+                "Low income",
             ]
         ).reset_index()
 
-        all_countries = data_df_without_continents["Entity"].tolist()
+        all_countries = data_df["Entity"].tolist()
         country_list = list(dict.fromkeys(all_countries))
 
         return country_list
@@ -124,10 +152,113 @@ class Agros:
     def correlate_quantity(self):
         """Provides a correlation heatmap of the quantity columns"""
 
-        heatmap = sns.heatmap(
-            self.data_df.iloc[:, 13:].corr(), vmin=-1, vmax=1, annot=True
-        )
+        correlation = self.data_df.iloc[:, 13:].corr()
+        mask = np.zeros_like(correlation, dtype=bool)
+        mask[np.triu_indices_from(mask)] = True
+
+        heatmap = sns.heatmap(correlation, vmin=-1, vmax=1, annot=True, mask=mask)
         heatmap.set_title("Correlation Heatmap", fontdict={"fontsize": 12}, pad=12)
+        ax_figure = heatmap.axes
+        ax_figure.text(
+            0,
+            -0.35,
+            "Source: Agricultural total factor productivity (USDA), Our World in Data 2021",
+            fontsize=12,
+            ha="left",
+            transform=heatmap.figure.transFigure,
+        )
+
+    def area_graph(self, country: str, normalize: bool):
+        """
+        Creates an area graph of the output of a given country or the whole world.
+        It can be specified if the graph should show absolute numbers or relative numbers,
+        where the yearly output is always 100%.
+        The country input can either be empty or 'World' then the graph will show
+        information for the whole world summarized, or it can be a country from the country_list.
+        Then it will show the output for the specific country. If the input is something
+        else, it will raise and error.
+
+        Parameters
+        ---------------
+        country: string
+            Defines if the data should be shown for a special country or for the whole world
+
+        normalize: boolean
+            Shows if graph should be normalized. Normalized means that it will be relative output
+        """
+        country_list = self.list_countries()
+
+        # check if input for normalize is a boolean value
+        if not isinstance(normalize, bool):
+            raise TypeError("Variable 'normalize' is not a boolean.")
+
+        # check if country input is World or none and adapt dataframe accordingly
+        if country in ("World", None):
+            country_df = self.data_df.groupby("Year", as_index=False).sum()
+            # check if normalize is true and adapt dataframe accordingly
+            if normalize is True:
+                country_df["crop_output_quantity"] = (
+                    country_df["crop_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["animal_output_quantity"] = (
+                    country_df["animal_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["fish_output_quantity"] = (
+                    country_df["fish_output_quantity"] / country_df["output_quantity"]
+                )
+
+        # check if country input is in country list
+        elif country in country_list:
+            country_df = self.data_df[self.data_df["Entity"] == f"{country}"]
+            if normalize is True:
+                country_df["crop_output_quantity"] = (
+                    country_df["crop_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["animal_output_quantity"] = (
+                    country_df["animal_output_quantity"] / country_df["output_quantity"]
+                )
+                country_df["fish_output_quantity"] = (
+                    country_df["fish_output_quantity"] / country_df["output_quantity"]
+                )
+
+        # raise a value error if country input is invalid
+        else:
+            raise ValueError(f"{country} is not a valid country, try another one")
+
+        # define colors to use in chart
+        color_map = ["red", "steelblue", "green"]
+
+        # create area chart
+        plt.stackplot(
+            country_df["Year"],
+            country_df["crop_output_quantity"],
+            country_df["animal_output_quantity"],
+            country_df["fish_output_quantity"],
+            labels=["Output Crop", "Output Animal", "Output Fish"],
+            colors=color_map,
+        )
+
+        # add legend
+        plt.legend(loc="upper left")
+
+        # add axis labels
+        plt.xlabel("Year")
+        plt.ylabel("Quantity")
+
+        # add title
+        plt.title(f"{country}'s Output by Type of Crop, Animal, and Fish")
+
+        # add source
+        plt.text(
+            0,
+            -0.25,
+            "Source: Agricultural total factor productivity (USDA), Our World in Data 2021",
+            ha="left",
+            transform=plt.gca().transAxes,
+        )
+
+        # display area chart
+        plt.show()
 
     def area_graph(self, country: str, normalize: bool):
         """
@@ -233,6 +364,14 @@ class Agros:
         plt.title("Output Comparison for Selected Countries")
         plt.xlabel("Year")
         plt.ylabel("Output")
+        plt.text(
+            0,
+            -0.25,
+            "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+            ha="left",
+            fontsize=10,
+            transform=plt.gca().transAxes,
+        )
         plt.show()
 
     def gapminder(self, year: int):
@@ -281,5 +420,45 @@ class Agros:
             yscale="log",
             title=f"Fertilizer, Output and Labor Quantity in {year}",
         )
-
+        plt.text(
+            0,
+            -0.15,
+            "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+            ha="left",
+            fontsize=10,
+            transform=axis.transAxes,
+        )
         plt.show()
+
+    def choropleth(self, year: int):
+        """Plots the total factor productivity of a selected year.
+        Also, the function merges the data_df with the geopandas_df.
+
+        Parameter
+        ---------------
+        year: int
+            the year selected for the plot
+        """
+
+        if type(year) is not int:
+            raise TypeError("Year must be an integer")
+
+        self.geopandas_df.replace({"name": self.merge_dict}, inplace=True)
+        merged_df = self.geopandas_df.merge(
+            self.data_df, how="right", left_on="name", right_on="Entity"
+        )
+        merged_df.loc[merged_df["Year"] == year].plot(
+            column="tfp",
+            legend=True,
+            figsize=[20, 10],
+            legend_kwds={"label": "Total Factor Productivity"},
+        )
+        plt.title(f"Total Factor Productivity in {year}")
+        plt.text(
+            0,
+            -0.25,
+            "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+            ha="left",
+            fontsize=10,
+            transform=plt.gca().transAxes,
+        )
