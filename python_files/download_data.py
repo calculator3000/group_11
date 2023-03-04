@@ -1,7 +1,8 @@
 def download_data(self):
     """
-    Downloads agricultural data from Github repository and saves it to a download folder.
-    Raises an error in case the file is already downloaded.
+    Creates a 'downloads' folder, if it doesn't exist.
+    Downloads agricultural data from Github repository and saves it to this folder,
+    in case it is not already downloaded.
     It also creates Pandas Dataframe from the downloaded csv file.
     """
     if not os.path.exists("downloads"):

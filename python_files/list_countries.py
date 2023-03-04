@@ -1,5 +1,6 @@
 def list_countries(self):
     """Lists all the countries of the Entity column and removes the duplicates.
+    It also cleans the data so that aggregated rows (like Asia) are excluded.
 
     Returns
     ---------------

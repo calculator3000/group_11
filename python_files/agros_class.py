@@ -1,5 +1,5 @@
 """ This module contains one class with the purpose of analyzing agricultural data internationally.
-It contains six methods. Those can download the data, list all the countries of the dataset,
+It contains seven methods. Those can download the data, list all the countries of the dataset,
 provide a correlation matrix of the outputs, and plot an area chart of the agricultural output
 of a choosen country.
 It can also compare the output of choosen countries with a line graph, and plot a scatter plot
@@ -45,7 +45,7 @@ class Agros:
         provides an area graph of the outputs of a selected country or the world
 
     compare_output
-        Plots the output columns of selected countries
+        plots the output columns of selected countries
 
     gapminder
         provides a scatterplot of fertilizer and output quantity for a selected year
@@ -73,8 +73,9 @@ class Agros:
 
     def download_data(self):
         """
-        Downloads agricultural data from Github repository and saves it to a download folder.
-        Raises an error in case the file is already downloaded.
+        Creates a 'downloads' folder, if it doesn't exist.
+        Downloads agricultural data from Github repository and saves it to this folder,
+        in case it is not already downloaded.
         It also creates Pandas Dataframe from the downloaded csv file.
         """
         if not os.path.exists("downloads"):
@@ -97,6 +98,7 @@ class Agros:
 
     def list_countries(self):
         """Lists all the countries of the Entity column and removes the duplicates.
+        It also cleans the data so that aggregated rows (like Asia) are excluded.
 
         Returns
         ---------------
