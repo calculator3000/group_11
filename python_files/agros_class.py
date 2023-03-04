@@ -13,6 +13,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import geopandas as gpd
+import numpy as np
 
 
 class Agros:
@@ -151,9 +152,11 @@ class Agros:
     def correlate_quantity(self):
         """Provides a correlation heatmap of the quantity columns"""
 
-        heatmap = sns.heatmap(
-            self.data_df.iloc[:, 13:].corr(), vmin=-1, vmax=1, annot=True
-        )
+        correlation = self.data_df.iloc[:, 13:].corr()
+        mask = np.zeros_like(correlation, dtype=bool)
+        mask[np.triu_indices_from(mask)] = True
+
+        heatmap = sns.heatmap(correlation, vmin=-1, vmax=1, annot=True, mask=mask)
         heatmap.set_title("Correlation Heatmap", fontdict={"fontsize": 12}, pad=12)
         ax = heatmap.axes
         ax.text(
@@ -369,4 +372,13 @@ class Agros:
             legend=True,
             figsize=[20, 10],
             legend_kwds={"label": "Total Factor Productivity"},
+        )
+        plt.title(f"Total Factor Productivity in {year}")
+        plt.text(
+            0,
+            -0.25,
+            "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+            ha="left",
+            fontsize=10,
+            transform=plt.gca().transAxes,
         )

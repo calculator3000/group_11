@@ -20,3 +20,12 @@ def choropleth(self, year: int):
         figsize=[20, 10],
         legend_kwds={"label": "Total Factor Productivity"},
     )
+    plt.title(f"Total Factor Productivity in {year}")
+    plt.text(
+        0,
+        -0.25,
+        "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+        ha="left",
+        fontsize=10,
+        transform=plt.gca().transAxes,
+    )
