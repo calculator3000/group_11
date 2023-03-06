@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>agros_class module &mdash; Project Agros 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="area_graph module" href="area_graph.html" />
+    <link rel="prev" title="python_files" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Project Agros
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">python_files</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">agros_class module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#agros_class.Agros"><code class="docutils literal notranslate"><span class="pre">Agros</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.data_df"><code class="docutils literal notranslate"><span class="pre">Agros.data_df</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.merge_dict"><code class="docutils literal notranslate"><span class="pre">Agros.merge_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.download_data"><code class="docutils literal notranslate"><span class="pre">Agros.download_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.list_countries"><code class="docutils literal notranslate"><span class="pre">Agros.list_countries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.correlate_quantity"><code class="docutils literal notranslate"><span class="pre">Agros.correlate_quantity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.area_graph"><code class="docutils literal notranslate"><span class="pre">Agros.area_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.compare_output"><code class="docutils literal notranslate"><span class="pre">Agros.compare_output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.gapminder"><code class="docutils literal notranslate"><span class="pre">Agros.gapminder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agros_class.Agros.choropleth"><code class="docutils literal notranslate"><span class="pre">Agros.choropleth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Agros.area_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Agros.choropleth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Agros.compare_output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">Agros.correlate_quantity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">Agros.download_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">Agros.gapminder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">Agros.list_countries()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="area_graph.html">area_graph module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choropleth.html">choropleth module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare_output.html">compare_output module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="correlate_quantity.html">correlate_quantity module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="download_data.html">download_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapminder.html">gapminder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list_countries.html">list_countries module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Project Agros</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">python_files</a> &raquo;</li>
+        
+      <li>agros_class module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/agros_class.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="module-agros_class">
+<span id="agros-class-module"></span><h1>agros_class module<a class="headerlink" href="#module-agros_class" title="Permalink to this heading">¶</a></h1>
+<p>This module contains one class with the purpose of analyzing agricultural data internationally.
+It contains seven methods. Those can download the data, list all the countries of the dataset,
+provide a correlation matrix of the outputs, and plot an area chart of the agricultural output
+of a choosen country.
+It can also compare the output of choosen countries with a line graph, and plot a scatter plot
+of fertilizer and output quantity.
+Moreover, a choropleth of the total factor productivity for a selected year can be plotted.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="agros_class.Agros">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">agros_class.</span></span><span class="sig-name descname"><span class="pre">Agros</span></span><a class="headerlink" href="#agros_class.Agros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that downloads agricultural data and performs analysis on it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="agros_class.Agros.data_df">
+<span class="sig-name descname"><span class="pre">data_df</span></span><a class="headerlink" href="#agros_class.Agros.data_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>dataframe where the downloaded agricultural data can be loaded into</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="agros_class.Agros.merge_dict">
+<span class="sig-name descname"><span class="pre">merge_dict</span></span><a class="headerlink" href="#agros_class.Agros.merge_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>a dictionary in order to change the spelling for some countries to allow merging</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.download_data">
+<span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.download_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>downloads agricultural data from Github, saves it to a download folder
+and creates Pandas DataFrame</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.list_countries">
+<span class="sig-name descname"><span class="pre">list_countries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.list_countries" title="Permalink to this definition">¶</a></dt>
+<dd><p>list all the available countries of the dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.correlate_quantity">
+<span class="sig-name descname"><span class="pre">correlate_quantity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.correlate_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>provides a correlation heatmap of the quality columns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.area_graph">
+<span class="sig-name descname"><span class="pre">area_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.area_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>provides an area graph of the outputs of a selected country or the world</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.compare_output">
+<span class="sig-name descname"><span class="pre">compare_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.compare_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>plots the output columns of selected countries</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.gapminder">
+<span class="sig-name descname"><span class="pre">gapminder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.gapminder" title="Permalink to this definition">¶</a></dt>
+<dd><p>provides a scatterplot of fertilizer and output quantity for a selected year</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="agros_class.Agros.choropleth">
+<span class="sig-name descname"><span class="pre">choropleth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agros_class.Agros.choropleth" title="Permalink to this definition">¶</a></dt>
+<dd><p>provided a choropleth plotting the total factor productivity of a selected year</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">area_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an area graph of the output of a given country or the whole world.
+It can be specified if the graph should show absolute numbers or relative numbers,
+where the yearly output is always 100%.
+The country input can either be empty or ‘World’ then the graph will show
+information for the whole world summarized, or it can be a country from the country_list.
+Then it will show the output for the specific country. If the input is something
+else, it will raise and error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>country</strong> (<em>string</em>) – Defines if the data should be shown for a special country or for the whole world</p></li>
+<li><p><strong>normalize</strong> (<em>boolean</em>) – Shows if graph should be normalized. Normalized means that it will be relative output</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">choropleth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the total factor productivity of a selected year.
+Also, the function merges the data_df with the geopandas_df.</p>
+<section id="parameter">
+<h2>Parameter<a class="headerlink" href="#parameter" title="Permalink to this heading">¶</a></h2>
+<dl class="simple">
+<dt>year: int</dt><dd><p>the year selected for the plot</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">compare_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">country_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the total of the output columns of selected countries.
+An unlimited number of countries can be selected for the comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>country_list</strong> (<em>string</em>) – the countries selected for the comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">correlate_quantity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a correlation heatmap of the quantity columns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ‘downloads’ folder, if it doesn’t exist.
+Downloads agricultural data from Github repository and saves it to this folder,
+in case it is not already downloaded.
+It also creates Pandas Dataframe from the downloaded csv file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">gapminder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a scatter plot for a specified <code class="docutils literal notranslate"><span class="pre">year</span></code> with the variables
+x being fertilizer quantity,
+y being output quantity,
+and the area of each dot being labor quantity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>int</em>) – Scatter plot will display the data only for the specified year.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">list_countries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists all the countries of the Entity column and removes the duplicates.
+It also cleans the data so that aggregated rows (like Asia) are excluded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>country_list</strong> – All countries in the agros_data Entity column</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="area_graph.html" class="btn btn-neutral float-right" title="area_graph module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="python_files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, Julia Stieler, Hannah Dickescheid, Carlos Ferrufino, Eva Zinser, Luis Guimarais
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
