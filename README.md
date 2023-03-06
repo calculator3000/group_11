@@ -3,7 +3,7 @@
 ## Description
 The repository contains our advanced programming group project, using data on agriculture by Our World in Data, analyzing the world’s agricultural production between the years 1961 and 2019. The goal is to contribute to the green transition.
 
-Our main analysis can be found in the showcase Jupyter Notebook. 
+The project is part of the Advanced Programming Course at Nova SBE. Our main analysis can be found in the showcase Jupyter Notebook. Here, the agricultural evolution of several countries is analyzed with a comparison of the outputs, a gapminder plot, a correlation matrix, area graphs, a choropleth map, and finalized with a prediction of the countries' outputs. 
 
 The project is shared work by:\
 Julia Stieler - 56040, 56040@novasbe.pt\
