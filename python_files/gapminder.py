@@ -1,13 +1,3 @@
-"""[ ] Develop a sixth method that must be called gapminder.
-This is a reference to the famous [gapminder tools]
-(https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1).
-This method should receive an argument year which must be an int.
-If the received argument is not an int, the method should raise a TypeError.
-This method should plot a scatter plot where
-is fertilizer_quantity, y is output_quantity,
-and the area of each dot should be a third relevant variable
-you find with exploration of the data."""
-
 def gapminder(self, year: int):
     """
     Generate a scatter plot for a specified ``year`` with the variables
