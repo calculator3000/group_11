@@ -54,5 +54,12 @@ def gapminder(self, year: int):
         yscale="log",
         title=f"Fertilizer, Output and Labor Quantity in {year}",
     )
-
+    plt.text(
+        0,
+        -0.15,
+        "Source:Agricultural total factor productivity (USDA), Our World in Data 2021",
+        ha="left",
+        fontsize=10,
+        transform=axis.transAxes,
+    )
     plt.show()

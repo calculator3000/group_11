@@ -1,6 +1,6 @@
-def list_countries():
+def list_countries(self):
     """Lists all the countries of the Entity column and removes the duplicates.
-    It also removes all rows that are not countries.
+    It also cleans the data so that aggregated rows (like Asia) are excluded.
 
     Returns
     ---------------
@@ -8,9 +8,8 @@ def list_countries():
         All countries in the agros_data Entity column
 
     """
-    data_df_new_index = data_df.set_index("Entity")
-
-    data_df_without_continents = data_df_new_index.drop(
+    data_df_new_index = self.data_df.set_index("Entity")
+    data_df = data_df_new_index.drop(
         [
             "Asia",
             "Caribbean",
@@ -45,10 +44,11 @@ def list_countries():
             "West Asia",
             "Western Europe",
             "World",
+            "Low income",
         ]
     ).reset_index()
 
-    all_countries = data_df_without_continents["Entity"].tolist()
+    all_countries = data_df["Entity"].tolist()
     country_list = list(dict.fromkeys(all_countries))
 
     return country_list
