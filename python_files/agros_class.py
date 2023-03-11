@@ -34,6 +34,9 @@ class Agros:
     merge_dict: dict
         a dictionary in order to change the spelling for some countries to allow merging
 
+    geopandas_df: Geopandas df
+        a geopandas dataframe where geo dataset with country-level polygons can be loaded into
+
 
     Methods
     ---------------
@@ -57,7 +60,7 @@ class Agros:
         provides a scatterplot of fertilizer and output quantity for a selected year
 
     choropleth
-        provided a choropleth plotting the total factor productivity of a selected year
+        provides a choropleth plotting the total factor productivity of a selected year
 
     predictor
         applies an ARIMA prediction for the total factor productivity and
@@ -276,7 +279,7 @@ class Agros:
         # display area chart
         plt.show()
 
-    def compare_output(self, *country_input):
+    def compare_output(self, *country_input: tuple):
         """Plots the total of the output columns of selected countries.
         An unlimited number of countries can be selected for the comparison.
 
@@ -290,7 +293,11 @@ class Agros:
 
         for country_input in input_list:
             if type(country_input) is not str:
-                raise TypeError("Country inputed is not a string")
+                raise TypeError("Country inputted is not a string")
+                
+        for country_input in input_list:
+            if country_input not in self.list_countries():
+                raise ValueError("Country inputted not available in dataset")
 
         output_df = self.data_df[self.data_df["Entity"].isin(input_list)]
 
@@ -374,6 +381,10 @@ class Agros:
 
         if type(year) is not int:
             raise TypeError("Year must be an integer")
+            
+        if year < 1961 or year > 2019:
+            raise ValueError(
+                "No entries were found for this year. Variable 'year' must be between 1961 and 2019")
 
         self.geopandas_df.replace({"name": self.merge_dict}, inplace=True)
         merged_df = self.geopandas_df.merge(
