@@ -408,7 +408,7 @@ class Agros:
             transform=plt.gca().transAxes,
         )
 
-    def predictor(self, *countries: list):
+    def predictor(self, countries: list):
         """
         Receives three countries and checks, which of them are included in the country_list.
         Then the rolling mean and the rolling standard deviation of tfp column of the data_df
@@ -421,17 +421,21 @@ class Agros:
         A list of three country names.
 
         """
+        # check if list contains max three values
+        if len(countries) > 3:
+            raise ValueError(
+                "Your input was too long, please add maximum 3 countries to your list."
+            )
+         
         country_list = self.list_countries()
 
         # check for valid countries in input
-        flat_list = [item for sublist in countries for item in sublist]
-        invalid_countries = [x for x in flat_list if x not in country_list]
+        invalid_countries = [x for x in countries if x not in country_list]
 
         if len(invalid_countries) > 0:
             print(f"Ignoring invalid countries: {', '.join(invalid_countries)}")
 
-        valid_countries = [x for x in flat_list if x in country_list]
-        print(valid_countries)
+        valid_countries = [x for x in countries if x in country_list]
 
         if len(valid_countries) == 0:
             raise ValueError(
