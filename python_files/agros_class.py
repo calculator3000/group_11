@@ -373,7 +373,7 @@ class Agros:
         """Plots the total factor productivity of a selected year.
         Also, the function merges the data_df with the geopandas_df.
 
-        Parameter
+        Parameters
         ---------------
         year: int
             the year selected for the plot
