@@ -81,6 +81,7 @@ class Agros:
             "Somaliland": "Somalia",
             "Bosnia and Herz.": "Bosnia and Herzegovina",
             "S. Sudan": "South Sudan",
+            "Central African Rep.": "Central African Republic",
         }
         self.geopandas_df = gpd.GeoDataFrame
 
@@ -172,7 +173,7 @@ class Agros:
         mask[np.triu_indices_from(mask)] = True
 
         heatmap = sns.heatmap(
-            correlation, vmin=-1, vmax=1, annot=True, mask=mask, cmap='coolwarm'
+            correlation, vmin=-1, vmax=1, annot=True, mask=mask, cmap="coolwarm"
         )
         heatmap.set_title(
             "Correlation Heatmap of Output Columns", fontdict={"fontsize": 12}, pad=12
@@ -294,7 +295,7 @@ class Agros:
         for country_input in input_list:
             if type(country_input) is not str:
                 raise TypeError("Country inputted is not a string")
-                
+
         for country_input in input_list:
             if country_input not in self.list_countries():
                 raise ValueError("Country inputted not available in dataset")
@@ -381,10 +382,11 @@ class Agros:
 
         if type(year) is not int:
             raise TypeError("Year must be an integer")
-            
+
         if year < 1961 or year > 2019:
             raise ValueError(
-                "No entries were found for this year. Variable 'year' must be between 1961 and 2019")
+                "No entries were found for this year. Variable 'year' must be between 1961 and 2019"
+            )
 
         self.geopandas_df.replace({"name": self.merge_dict}, inplace=True)
         merged_df = self.geopandas_df.merge(
