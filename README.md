@@ -46,7 +46,7 @@ The class is PEP8 compliant, using black and pylint.
 GPL-3.0 license
 
 ## Project Status
-End Sprint :)
+Finished
 
 ## Special Thanks 
 to Luis and Our World In Data
